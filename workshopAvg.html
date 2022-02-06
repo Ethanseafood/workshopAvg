@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
+
+</head>
+
+<body>
+    <div>
+        <input class="stuNo" type="text" placeholder="student1 id"> </input>
+        <input class="stuScore" type="text" placeholder="student1 score"> </input>
+    </div>
+    <div>
+        <input class="stuNo" type="text" placeholder="student2 id"> </input>
+        <input class="stuScore" type="text" placeholder="student2 score"> </input>
+    </div>
+    <div>
+        <input class="stuNo" type="text" placeholder="student3 id"> </input>
+        <input class="stuScore" type="text" placeholder="student3 score"> </input>
+    </div>
+    <div>
+        <input class="stuNo" type="text" placeholder="student4 id"> </input>
+        <input class="stuScore" type="text" placeholder="student4 score"> </input>
+    </div>
+    <div>
+        <input class="stuNo" type="text" placeholder="student5 id"> </input>
+        <input class="stuScore" type="text" placeholder="student5 score"> </input>
+    </div>
+    <br>
+    <button id="btn" onclick="average(listStu)">calculate</button>
+    <p id="result"></p>
+    <p id="max&min"></p>
+    <p id="pass"></p>
+    <p id="student"></p>
+    <script>
+        const listStu = [{ id: "0", score: "0" }, { id: "0", score: "0" }, { id: "0", score: "0" }, { id: "0", score: "0" }, { id: "0", score: "0" }];
+
+        function average(stuArr) {           
+           let total = 0, avg = 0;
+            let elementList = document.getElementsByClassName("stuScore");
+            let stuNoEleList = document.getElementsByClassName("stuNo");
+            for (let i = 0; i < elementList.length; i++) {
+                stuArr[i].score = Number(elementList[i].value);
+                stuArr[i].id = Number(stuNoEleList[i].value);
+                total += stuArr[i].score;
+            }
+            avg = total / elementList.length;
+            //$("#result").text(avg);
+            document.getElementById("result").innerHTML ="average score: "+ avg;   
+            
+            listStu.sort(function(a, b){return a.score-b.score});
+            document.getElementById("max&min").innerHTML ="The worst student's id is: " +listStu[0].id + ". The score is: " + listStu[0].score + ". The best student's id is: "+ listStu[elementList.length-1].id + ". The score is: "+ listStu[elementList.length-1].score+".";
+
+            // score check and compensation 
+            let half = elementList.length/2; 
+            while (passCnt() < half){
+                for(let i of listStu){
+                    i.score += 1;
+                }
+            }
+            let txt = "";
+            for (let i of listStu) {
+                txt += i.id + '/' + i.score+ '<br>';
+            }
+            document.getElementById("student").innerHTML= txt;
+            }
+
+    function passCnt(){
+            let pass = 0;
+            for(let i of listStu){
+                    if (i.score >= 60){
+                        pass += 1;
+                    }
+                }
+                document.getElementById("pass").innerHTML = "passed students: " + pass;
+                return pass;
+            }
+    </script>
+</body>
+
+</html>
